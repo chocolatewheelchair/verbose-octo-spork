@@ -1,7 +1,7 @@
 from tracks import db
 
 
-# keys_dict = {'A': 8, 'A#': 3, 'B': 10,'C': 5,'C#': 12,'D': 7,'D#': 2,'E': 9,'F': 4,'F#': 11,'G': 6,'G#': 1}
+
 # TODO
 # Converts the user input key into a number in range(1,12) for convenience
 # def key_convert(key):
@@ -50,6 +50,15 @@ def hackmix():
                 results_bpm.append(i)
             if bpm in range (int(i_bpm * 1.04), int(i_bpm * 1.06)):
                 results_bpm_2[i] = v
+                for i, v in results_bpm_2.items():
+                    if v[1] in range(0,6):
+                        v[1] = v[1] + 7
+                    if v[1] in range(6,13):
+                        v[1] = v[1] - 5
+
+
+
+
                 
 
 
