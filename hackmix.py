@@ -48,6 +48,7 @@ def hackmix():
             i_bpm = db[i][0]
             if bpm in range (i_bpm - 3, i_bpm + 3):
                 results_bpm.append(i)
+# This part is supposed to emulate key change when pitching up the track on a vinyl turntable, it doesn't seem to work tho
             if bpm in range (int(i_bpm * 1.04), int(i_bpm * 1.06)):
                 results_bpm_2[i] = v
                 for i, v in results_bpm_2.items():
@@ -55,14 +56,6 @@ def hackmix():
                         v[1] = v[1] + 7
                     if v[1] in range(6,13):
                         v[1] = v[1] - 5
-
-
-
-
-                
-
-
-
 
 # Checks in database for key matches
     def key_match_same(key):
