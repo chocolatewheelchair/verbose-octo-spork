@@ -13,6 +13,9 @@ from tracks import db
 results = []
 results_bpm = []
 results_bpm_2 = {}
+results_bpm_4 = {}
+results_bpm_minus2 = {}
+results_bpm_minus4 = {}
 results_same_key = []
 results_strong_key = []
 results_weak_key = []
@@ -46,18 +49,23 @@ def hackmix():
     def bpm_match(bpm):
         for i, v in db.items():
             i_bpm = db[i][0]
-            if bpm in range (i_bpm - 3, i_bpm + 3):
+            if bpm in range (int(i_bpm * 0.961), int(i_bpm * 1.039)):
                 results_bpm.append(i)
-# This part is supposed to emulate key change when pitching up the track on a vinyl turntable
-# Clearly it doesn't work as intended
+# The following part puts aside tracks that are still within the possible pitching capabilities of a Technics turntable (-8/+8%)
             if bpm in range (int(i_bpm * 1.04), int(i_bpm * 1.06)):
                 results_bpm_2[i] = v
-                print '1bpm2',results_bpm_2
-                for i, v in results_bpm_2.items():
-                    if v[1] in range(0,6):
-                        v[1] = v[1] + 7
-                    if v[1] in range(6,13):
-                        v[1] = v[1] - 5
+            if bpm in range (int(i_bpm * 1.061), int(i_bpm * 1.08)):
+                results_bpm_4[i] = v
+            if bpm in range (int(i_bpm * 0.96), int(i_bpm * 0.94)):
+                results_bpm_minus2[i] = v
+            if bpm in range (int(i_bpm * 0.939), int(i_bpm * 0.92)):
+                results_bpm_minus4[i] = v
+                
+        for i, v in results_bpm_2.items():
+            if v[1] in range(0,6):
+                v[1] = v[1] + 7
+        if v[1] in range(6,13):
+            v[1] = v[1] - 5
 
 # Checks in database for key matches
     def key_match_same(key):
