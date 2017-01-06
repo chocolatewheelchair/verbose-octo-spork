@@ -19,6 +19,7 @@ results_bpm_minus4 = {}
 results_pitched = {}
 pitched_key = []
 results_same_key = []
+results_same_key_1 = []
 results_strong_key = []
 results_weak_key = []
 same_match = []
@@ -81,6 +82,7 @@ def hackmix():
         results_pitched.update(results_bpm_4)
         results_pitched.update(results_bpm_minus2)
         results_pitched.update(results_bpm_minus4)
+        print 'pitcjhed', results_pitched
 
 
 # Checks in database and in the pitched tracks set aside for key matches
@@ -90,13 +92,14 @@ def hackmix():
                 results_same_key.append(i)
             try:
                 if key == results_pitched[i][1] :
-                    results_same_key.append(i)
+                    results_same_key_1.append(i)
             except KeyError:
                 pass
-        for i in results_same_key:
+        merged_results_same = results_same_key + results_same_key_1
+        for i in merged_results_same:
             if i in results_bpm:
                 same_match.append(i)
-
+        
     def key_match_strong(key):
         for i in db:
             same_key = db[i][1]
@@ -104,8 +107,10 @@ def hackmix():
                 pitched_key = results_pitched[i][1]
             except KeyError:
                 pass
+
             if key == same_key + 1 or key == same_key - 1:
                 results_strong_key.append(i)
+
             try:
                 if key == pitched_key + 1 or key == pitched_key - 1:
                     results_strong_key.append(i)
@@ -113,6 +118,7 @@ def hackmix():
                 pass
             except UnboundLocalError:
                 pass
+
         for i in results_strong_key:
             if i in results_bpm:
                 strong_match.append(i)
