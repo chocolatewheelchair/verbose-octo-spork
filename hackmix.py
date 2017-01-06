@@ -16,6 +16,8 @@ results_bpm_2 = {}
 results_bpm_4 = {}
 results_bpm_minus2 = {}
 results_bpm_minus4 = {}
+results_pitched = {}
+pitched_key = []
 results_same_key = []
 results_strong_key = []
 results_weak_key = []
@@ -51,7 +53,7 @@ def hackmix():
             i_bpm = db[i][0]
             if bpm in range (int(i_bpm * 0.961), int(i_bpm * 1.039)):
                 results_bpm.append(i)
-# The following part puts aside tracks that are still within the possible pitching capabilities of a Technics turntable (-8/+8%)
+# Puts aside tracks that are still within the possible pitching capabilities of a Technics turntable (-8/+8%)
             if bpm in range (int(i_bpm * 1.04), int(i_bpm * 1.06)):
                 results_bpm_2[i] = v
             if bpm in range (int(i_bpm * 1.061), int(i_bpm * 1.08)):
@@ -60,7 +62,7 @@ def hackmix():
                 results_bpm_minus2[i] = v
             if bpm in range (int(i_bpm * 0.939), int(i_bpm * 0.92)):
                 results_bpm_minus4[i] = v
-# The following part changes the root keys to reflect the pitch change on a turntable               
+# Changes the root keys to reflect the pitch change on a turntable               
         for i, v in results_bpm_2.items():
             if v[1] in range(0,6):
                 v[1] = v[1] + 7
@@ -68,19 +70,29 @@ def hackmix():
                 v[1] = v[1] - 5
         for i, v in results_bpm_4.items():
                 v[1] = v[1] + 2
-        for i, v in results_bpm_2.items():
+        for i, v in results_bpm_minus2.items():
             if v[1] in range(0,6):
                 v[1] = v[1] + 5
             if v[1] in range(6,13):
                 v[1] = v[1] - 7
-        for i, v in results_bpm_4.items():
+        for i, v in results_bpm_minus4.items():
                 v[1] = v[1] - 2
+        results_pitched.update(results_bpm_2)
+        results_pitched.update(results_bpm_4)
+        results_pitched.update(results_bpm_minus2)
+        results_pitched.update(results_bpm_minus4)
 
-# Checks in database for key matches
+
+# Checks in database and in the pitched tracks set aside for key matches
     def key_match_same(key):
         for i in db:
             if key == db[i][1] :
                 results_same_key.append(i)
+            try:
+                if key == results_pitched[i][1] :
+                    results_same_key.append(i)
+            except KeyError:
+                pass
         for i in results_same_key:
             if i in results_bpm:
                 same_match.append(i)
@@ -88,8 +100,19 @@ def hackmix():
     def key_match_strong(key):
         for i in db:
             same_key = db[i][1]
+            try:
+                pitched_key = results_pitched[i][1]
+            except KeyError:
+                pass
             if key == same_key + 1 or key == same_key - 1:
                 results_strong_key.append(i)
+            try:
+                if key == pitched_key + 1 or key == pitched_key - 1:
+                    results_strong_key.append(i)
+            except KeyError:
+                pass
+            except UnboundLocalError:
+                pass
         for i in results_strong_key:
             if i in results_bpm:
                 strong_match.append(i)
@@ -110,7 +133,7 @@ def hackmix():
 
 hackmix()
 
-print 'bpm2',results_bpm_2
+
 # print 'Tracks within the BPM range', results_bpm
 print 'Tracks in same key within that BPM range', same_match
 print 'Tracks in a strong match key within that BPM range', strong_match
@@ -120,6 +143,7 @@ print 'Tracks in a weak match key within that BPM range', weak_match
 # stuff to add, known bugs: 
 # being able to match tracks that are at, say 81 bpm, with tracks at 159 bpm 
 # calculations not taking into account whether the vinyl plays at 33 or 45 rpm
+# major/minor keys not differentiated 
 
 
 
