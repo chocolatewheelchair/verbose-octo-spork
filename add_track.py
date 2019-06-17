@@ -4,9 +4,9 @@ import json
 
 def add_entry():
 
-    title = str(input("Enter title"))
-    bpm = int(input("Enter bpm"))
-    key = int(input("Enter key"))
+    title = str(input("Enter title "))
+    bpm = int(input("Enter bpm "))
+    key = int(input("Enter key "))
     new_entry = f',\'{title}\':[{bpm},{key}]}}'
 
 

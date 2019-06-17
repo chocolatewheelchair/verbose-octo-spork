@@ -48,16 +48,16 @@ def hackmix():
     #print ('Results with diff bpm:', results_with_different_bpm)
     #print ('Results with same key:', results_same_key)
     #print ('Results with close key:', results_close_key)
-    print ('Strong matches', strong_matches)
-    print ('Close matches', close_matches)
-    print ('Weak matches', weak_matches)
+    print ('Strong matches in same tempo ', strong_matches)
+    print ('Close matches in same tempo ', close_matches)
+    print ('Weak matches in same tempo ', weak_matches)
     #print ('strong key diff', results_same_key_diff_bpm)
     #print ('close key diff', results_close_key_diff_bpm)
     #print ('weak key diff', results_weak_key_diff_bpm)
 
-    print ('Strong matches different', strong_matches_diff)
-    print ('Close matches diff', close_matches_diff)
-    print ('Weak matches diff', weak_matches_diff)
+    print ('Strong matches at a different tempo', strong_matches_diff)
+    print ('Close matches at a different tempo ', close_matches_diff)
+    print ('Weak matches at a different tempo ', weak_matches_diff)
 
 def match(bpm, key):
     # adds items in the db to list if bpm is the same
