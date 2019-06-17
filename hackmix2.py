@@ -1,4 +1,4 @@
-from tracks import db
+import json
 import math
 
 results_with_same_bpm = []
@@ -126,6 +126,11 @@ def change_root_key(item_key, semitone_change):
             new_key = item_key + 2
     return(new_key)
 
+def open_json():
+    with open('dict.json', encoding='utf-8') as data_file:
+        global db
+        db = json.loads(data_file.read())
+
     
 
 
@@ -135,7 +140,7 @@ def change_root_key(item_key, semitone_change):
 
 
 
-
+open_json()
 hackmix()
 
 
